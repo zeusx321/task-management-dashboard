@@ -1,6 +1,8 @@
 import { Task } from "../types/task.types";
 import { CreateTaskInput } from "../types/task.types";
-
+import { Statuses } from "../types/task.types";
+import { Categories } from "../types/task.types";
+import { Priorities } from "../types/task.types";
 export class TaskManager {
     private tasks: Task[] = [];
     private nextId: number = 0;
@@ -54,5 +56,37 @@ export class TaskManager {
         if (target.title.trim() === "") {
             return;
         }
+    }
+
+    changeTaskStatus(id: number, newStatus: Statuses): void{
+        const target = this.tasks.find((task) => task.id === id);
+
+        if (target == undefined) return;
+        
+        target.status = newStatus;
+    }
+
+    searchTasks(query: string): Task[] {
+        const target = this.tasks.filter((task) => task.title.toLowerCase().includes(query.toLowerCase()));
+
+        return target;
+    }
+
+    filterByStatus(status: Statuses): Task[] {
+        const target = this.tasks.filter((task) => task.status === status);
+
+        return target;
+    }
+
+    filterByCategory(category: Categories): Task[] {
+        const target = this.tasks.filter((task) => task.category === category);
+
+        return target;
+    }
+
+    filterByPriority(priority: Priorities): Task[] {
+        const target = this.tasks.filter((task) => task.priority === priority);
+
+        return target;
     }
 }
